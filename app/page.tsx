@@ -10,6 +10,7 @@ import { useState, useRef } from "react";
 export default function Home() {
   const titleRef = useRef<any>(null);
   const descriptionRef = useRef<any>(null);
+  const slRef = useRef<any>(null);
   const tagRef = useRef<any>(null);
   const priceRef = useRef<any>(null);
   const creatorRef = useRef<any>(null);
@@ -23,6 +24,7 @@ export default function Home() {
     const tagData = tagRef.current.value;
     const priceData = priceRef.current.value;
     const creatorData = creatorRef.current.value;
+    const slNoData = slRef.current.value;
 
     if (
       creatorData &&
@@ -30,6 +32,7 @@ export default function Home() {
       descriptionData &&
       tagData &&
       priceData &&
+      slNoData &&
       courseType != null &&
       selectedImage != undefined
     ) {
@@ -43,12 +46,13 @@ export default function Home() {
         imageUrl,
         tagData,
         titleData,
-        courseType
+        courseType,
+        slNoData
       );
       const addCoursesDb = await instance.post("", {
         query: addCourseDetailsQuery,
       });
-
+      console.log(addCoursesDb.data.errors, "error");
       if (addCoursesDb.data.errors && addCoursesDb.data.errors.length > 0) {
         window.alert("Something went wrong");
       } else {
@@ -116,9 +120,6 @@ export default function Home() {
                       ref={descriptionRef}
                     />
                   </div>
-                  <p className="mt-3 text-sm leading-6 text-gray-600">
-                    Write a few sentences about yourself.
-                  </p>
                 </div>
 
                 {/* <div className="col-span-full"> */}
@@ -227,7 +228,7 @@ export default function Home() {
               </div>
             </div> */}
 
-                <div className="sm:col-span-3">
+                <div className="sm:col-span-">
                   <label
                     htmlFor="course"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -307,7 +308,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <label
                     htmlFor="price"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -322,6 +323,24 @@ export default function Home() {
                       autoComplete="postal-code"
                       className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       ref={priceRef}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <label
+                    htmlFor="sl_no"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Sl No.
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="sl_no"
+                      id="sl_no"
+                      autoComplete="postal-code"
+                      className="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      ref={slRef}
                     />
                   </div>
                 </div>
